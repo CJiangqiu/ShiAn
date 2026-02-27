@@ -1,0 +1,57 @@
+all_classes:
+- person
+- helmet
+- vest
+- gloves
+- goggles
+- scaffold
+- crane
+- ladder
+- barrier
+- boots
+- fire
+- smoke
+- stove
+- knife
+- pot
+- pan
+- vehicle
+- forklift
+- truck
+- car
+- bus
+- motorcycle
+- pickup
+- restricted_zone
+- safe_zone
+scenes:
+  common:
+  - person
+  kitchen:
+  - fire
+  - smoke
+  - stove
+  - knife
+  - pot
+  - pan
+  vehicle:
+  - vehicle
+  - forklift
+  - truck
+  - car
+  - bus
+  - motorcycle
+  - pickup
+  worksite:
+  - helmet
+  - vest
+  - gloves
+  - goggles
+  - scaffold
+  - crane
+  - ladder
+  - barrier
+  - boots
+  zone:
+  - restricted_zone
+  - safe_zone

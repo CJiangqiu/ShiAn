@@ -1,0 +1,53 @@
+# 专家配置：工地个人防护装备监控
+
+expert_id: worksite_ppe_guard
+description: 建筑工地个人防护装备（PPE）合规性监控
+
+# VLM判断Prompt（推理时使用）
+vlm_prompt_template: |
+  场景：建筑工地安全监控
+  目标：画面中红框标记的工人
+
+  判断标准：
+  1. 头部是否佩戴安全帽（注意区分安全帽与普通帽子/遮阳帽）？
+  2. 是否穿着反光背心？
+  3. 安全帽是手持还是正确佩戴在头上？
+
+  重要提示：
+  - 仅头部被遮挡看不清时判定为 SAFE
+  - 普通棒球帽、遮阳帽不算安全帽
+  - 安全帽拿在手里而非戴在头上算违规
+
+  输出格式：
+  第一行：DANGER 或 SAFE
+  第二行：简短理由（说明判断依据）
+
+alert_behavior:
+  min_danger_duration: 5.0
+  cooldown_period: 60.0
+
+# 告警规则配置
+alert_rules:
+  no_helmet:
+    desc: 未佩戴安全帽
+    condition: "NOT nearby(SELF, helmet, 80)"
+    min_duration: 5.0
+    severity: high
+    need_vlm_confirm: true
+    threshold: 0.7
+
+  no_vest:
+    desc: 未穿反光背心
+    condition: "NOT nearby(SELF, vest, 80)"
+    min_duration: 5.0
+    severity: medium
+    need_vlm_confirm: false
+    threshold: 0.6
+
+  unauthorized_in_danger_zone:
+    desc: 人员进入高危作业区域
+    condition: "in_zone(SELF, danger_zone)"
+    min_duration: 10.0
+    severity: high
+    need_vlm_confirm: false
+    threshold: 0.5

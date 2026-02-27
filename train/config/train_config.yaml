@@ -1,0 +1,86 @@
+# 视安 (ShiAn) 训练配置
+
+# ===== 全局配置 =====
+global:
+  device: 0                 # cpu | 0 (cuda:0) | 1 (cuda:1) | [0,1] (多GPU)
+  workers: 8                # 数据加载线程数
+  version: v1.0.0           # 默认版本号
+
+  # 排除列表（不训练的专家）
+  exclude_experts: ["kitchen_fire", "worksite_ppe_guard"]       # 例如: ["kitchen_fire", "worksite_ppe_guard"]
+
+# ===== 专家模型训练配置 (YOLOv12s) =====
+expert:
+  # 模型配置
+  base_model: train/models/original/yolo12s.pt
+  model_size: s             # small - 准确度优先
+
+  # 训练超参数
+  epochs: 8                 # 训练轮数（小数据集，减少轮数避免过拟合）
+  batch_size: 4             # 批次大小（适配 8GB 显存）
+  imgsz: 640                # 输入图像尺寸（匹配视频分辨率）
+  patience: 20              # 早停耐心值（更早停止，防止过拟合）
+
+  # 优化器配置
+  optimizer: AdamW
+  lr0: 0.0005               # 初始学习率（降低10倍，保守微调）
+  lrf: 0.01                 # 最终学习率因子
+  momentum: 0.937
+  weight_decay: 0.0005
+
+  # 数据增强
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+  degrees: 10.0             # 旋转角度 ±10度
+  translate: 0.1
+  scale: 0.5
+  shear: 0.0
+  perspective: 0.0
+  flipud: 0.5               # 上下翻转概率 50%
+  fliplr: 0.5
+  mosaic: 1.0
+
+  # 验证配置
+  val: true
+  save: true
+  save_period: -1           # -1 = 仅保存最佳模型
+  plots: true
+
+# ===== 路由模型训练配置 (YOLOv12n) =====
+router:
+  # 模型配置
+  base_model: train/models/original/yolo12n.pt
+  model_size: n             # nano - 速度优先
+
+  # 训练超参数
+  epochs: 10                # 路由模型不需要太多轮数
+  batch_size: 8             # 批次大小
+  imgsz: 640                # 输入尺寸
+  patience: 30              # 早停耐心值
+
+  # 优化器配置
+  optimizer: AdamW
+  lr0: 0.002                # 学习率
+  lrf: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+
+  # 数据增强
+  hsv_h: 0.01
+  hsv_s: 0.5
+  hsv_v: 0.3
+  degrees: 0.0
+  translate: 0.1
+  scale: 0.5
+  shear: 0.0
+  perspective: 0.0
+  flipud: 0.0
+  fliplr: 0.5
+  mosaic: 1.0
+
+  # 验证配置
+  val: true
+  save: true
+  save_period: -1
+  plots: true

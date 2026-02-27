@@ -1,0 +1,38 @@
+# 视安 Docker 精简依赖（CPU版本）
+# 不包含本地VLM相关依赖，使用云端API
+
+# PyTorch CPU 版本（约 200MB，比 CUDA 版小很多）
+--index-url https://download.pytorch.org/whl/cpu
+torch==2.7.1+cpu
+torchvision==0.22.1+cpu
+
+--extra-index-url https://pypi.org/simple
+
+# YOLO 检测
+ultralytics==8.3.241
+lapx>=0.5.12
+
+# 图像处理
+opencv-python-headless==4.12.0.88
+Pillow==12.1.0
+numpy>=2.0,<2.3.0
+
+# FastAPI 服务
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.5
+pydantic-settings==2.7.1
+python-multipart==0.0.20
+websockets==14.1
+
+# 配置
+PyYAML==6.0.3
+
+# 云端 VLM API（按需启用）
+openai==2.15.0
+anthropic==0.76.0
+dashscope==1.25.5
+
+# 数据库（可选）
+pymysql==1.1.1
+dbutils==3.1.0

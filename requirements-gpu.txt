@@ -1,0 +1,35 @@
+--index-url https://download.pytorch.org/whl/cu128
+--extra-index-url https://pypi.org/simple
+
+anthropic==0.76.0
+dashscope==1.25.5
+huggingface_hub==0.36.0
+numpy>=2.0,<2.3.0
+openai==2.15.0
+opencv_python==4.12.0.88
+Pillow==12.1.0
+protobuf==4.25.3
+PyQt6==6.10.2
+pyqt6_sip==13.10.3
+PyYAML==6.0.3
+qwen_vl_utils==0.0.14
+scikit_learn==1.8.0
+
+torch==2.7.1
+torchvision==0.22.1
+
+transformers==4.57.3
+accelerate>=0.26.0
+ultralytics==8.3.241
+
+# FastAPI Web服务依赖
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.5
+pydantic-settings==2.7.1
+python-multipart==0.0.20
+websockets==14.1
+
+# MySQL 数据库依赖
+pymysql==1.1.1
+dbutils==3.1.0

@@ -1,0 +1,23 @@
+# 视安 (ShiAn) 配置
+
+# ===== VLM复检开关 =====
+# 关闭：纯规则判断危险（不调用VLM）
+# 开启：规则触发后，由VLM进行二次确认
+vlm_check:
+  enabled: false  # VLM复检总开关（关闭以提升性能）
+
+# ===== 跟踪配置 =====
+tracking:
+  track_buffer: 30              # 跟踪缓冲帧数（目标丢失后保留的历史帧数）
+
+# ===== 推理配置 =====
+inference:
+  device: 0                  # cpu | 0 (cuda:0) | 1 (cuda:1)
+  half: false                   # 是否使用 FP16 半精度
+  batch_size: 1                 # 推理批次大小
+
+# ===== 状态缓冲配置 =====
+state_buffer:
+  window_size: 25               # 滑动窗口大小（帧数）= 5fps * 5秒
+  fps: 5                        # 视频帧率（用于计算持续时间）
+  max_lost_frames: 30           # 目标丢失后清理阈值

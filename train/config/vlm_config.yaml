@@ -1,0 +1,71 @@
+# 视安 (ShiAn) VLM配置
+# 仅当 config.yaml 中 vlm_check.enabled: true 时生效
+
+# ===== 本地VLM配置 =====
+local_vlm:
+  enabled: true                        # 本地VLM开关
+  model: "qwen3-vl-2b-instruct"        # 模型目录名（server/models/下）
+  device: cuda                         # 推理设备 (cuda/cpu)
+  recheck_interval: 5                  # UNCERTAIN时隔N帧重新检查
+
+# ===== 云端VLM配置 =====
+remote_vlm:
+  enabled: false                       # 云端VLM开关
+  provider: qwen_vl                    # 提供商: qwen_vl / claude / openai
+  timeout_s: 15                        # API超时时间（秒）
+  retry: 2                             # 重试次数
+
+  # API密钥配置
+  # 方式1: 直接填写密钥
+  # 方式2: 使用环境变量 ${VAR_NAME}
+  api_keys:
+    qwen_vl:
+      api_key: ""                      # 阿里云 DashScope API Key
+      base_url: ""                     # 留空使用默认地址
+    claude:
+      api_key: ""                      # Anthropic API Key
+      base_url: ""                     # 留空使用默认地址
+    openai:
+      api_key: ""                      # OpenAI API Key
+      base_url: ""                     # 留空使用默认地址
+
+  # 模型配置
+  models:
+    qwen_vl:
+      model: "qwen-vl-max"
+      max_tokens: 300
+      temperature: 0.0
+    claude:
+      model: "claude-3-5-sonnet-20241022"
+      max_tokens: 300
+      temperature: 0.0
+    openai:
+      model: "gpt-4o"
+      max_tokens: 300
+      temperature: 0.0
+
+# ===== 通用提示词配置（本地/云端共用）=====
+prompts:
+  system_prompt: |
+    你是一个专业的安全监控AI助手，负责判断画面中是否存在真正的危险行为。
+    请仔细分析画面中红框标记的目标对象。
+
+    判断标准：
+    - 如果确认存在真实危险行为，回答 DANGER
+    - 如果判断为误报或安全情况，回答 SAFE
+    - 如果信息不足无法判断，回答 UNCERTAIN
+
+    请保持客观谨慎的判断。
+
+  user_prompt_template: |
+    场景：{scene_desc}
+    目标：画面中红框标记的对象
+
+    检测结果：
+    {detection_info}
+
+    请综合以上信息判断：这是否为真正需要告警的危险行为？
+
+    输出格式：
+    第一行：DANGER 或 SAFE
+    第二行：判断理由

@@ -1,0 +1,68 @@
+# 专家配置：违停车辆识别
+
+expert_id: illegal_parking
+description: 违停车辆识别 - 检测禁停区域内长时间停留的车辆
+
+# 规则引擎配置
+detection_mode: 1                 # 物本模式，关注车辆
+primary_object:
+  - car
+  - truck
+  - bus
+  - motorcycle
+
+# 区域配置（用户框选禁停区域）
+zone:
+  required: true
+  zone_name: no_parking_zone
+
+# 告警规则配置
+alert_rules:
+  brief_parking:
+    desc: 车辆在禁停区域短时停留（预警）
+    condition: "in_zone(SELF, no_parking_zone)"
+    min_duration: 60.0
+    severity: low
+    need_vlm_confirm: false
+    threshold: 0.5
+
+  confirmed_parking:
+    desc: 车辆在禁停区域持续停留，确认违停
+    condition: "in_zone(SELF, no_parking_zone)"
+    min_duration: 180.0
+    severity: medium
+    need_vlm_confirm: true
+    threshold: 0.6
+
+  prolonged_parking:
+    desc: 车辆在禁停区域长时间占道停留
+    condition: "in_zone(SELF, no_parking_zone)"
+    min_duration: 300.0
+    severity: high
+    need_vlm_confirm: false
+    threshold: 0.5
+
+vlm_prompt_template: |
+  场景：道路违停监控
+  目标：画面中红框标记的车辆
+
+  判断标准：
+  1. 车辆是否处于禁停区域内？
+  2. 车辆是否处于静止状态？
+  3. 是否属于以下豁免情况：
+     - 临时停靠上下客（驾驶员在车内，随时可驶离）
+     - 交通拥堵被动停车
+     - 黄色标线区域短暂装卸货物
+
+  重要提示：
+  - 短暂停靠上下客不算违停
+  - 关注车辆是否熄火、是否有驾驶员在车内
+  - 综合位置、时长和车辆状态判断
+
+  输出格式：
+  第一行：DANGER 或 SAFE
+  第二行：简短理由（说明判断依据）
+
+alert_behavior:
+  min_danger_duration: 60.0
+  cooldown_period: 300.0

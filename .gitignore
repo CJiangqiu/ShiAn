@@ -1,0 +1,71 @@
+# 视安 Git 忽略文件
+# 与 PyCharm 排除结构保持一致
+
+# ===== 模型文件 =====
+*.pt
+train/models/
+server/models/*/
+!server/models/*/.gitkeep
+
+# ===== 训练数据 =====
+train/data/
+!train/data/.gitkeep
+
+# ===== 测试和数据 =====
+test/
+data/
+client/
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# ===== 虚拟环境 =====
+.venv/
+venv/
+env/
+ENV/
+.Python
+
+# ===== IDE =====
+.claude/
+.idea/
+.vscode/
+
+# ===== 日志和缓存 =====
+*.log
+logs/
+.cache/
+
+# ===== 不提交的根目录文件 =====
+CLAUDE.md
+competitive_analysis.md
+pack.py
+*.docx
+~$*
+
+# ===== 临时文件 =====
+*.tmp
+*.temp
+*.bak
+*.swp
+.~*
+nul
+
+# ===== 数据库 =====
+*.db
+*.db-journal
+*.db-wal
+
+# ===== 敏感配置 =====
+.env
+*.env
+server/llm_api.yaml
+server/config/zones/*.yaml
+!server/config/zones/.gitkeep

@@ -1,0 +1,72 @@
+﻿# 专家配置模板
+# 复制此文件为: train/config/experts/{expert_id}.yaml
+# 训练时会自动读取并合并到 expert_info.json
+
+expert_id: your_expert_id          # 专家ID（与数据目录名一致）
+description: 专家功能描述            # 简短描述
+
+# 规则引擎配置（可选）
+detection_mode: 1                 # 0=人本, 1=物本，也就是识别时候重点关注人还是关键物品
+primary_object: [person, fire]  # 物本模式下的主体类别（可为列表）
+
+# 区域配置（可选）
+zone:
+  required: false                 # 是否需要用户框选区域
+  zone_name: safe_zone            # 区域名称（用于规则 in_zone）
+
+# 规则配置（可选）
+alert_rules:
+  example_rule:
+    desc: 示例规则说明
+    condition: "NOT nearby(SELF, person, 50)"
+    min_duration: 3.0
+    severity: medium
+    need_vlm_confirm: false
+    threshold: 0.6
+
+# 规则引擎 DSL 说明
+# - 逻辑运算: AND / OR / NOT
+# - SELF: 当前主体对象（由 detection_mode + primary_object 决定）
+# - nearby(SELF, class, radius): 距离(中心点) <= radius
+# - distance(SELF, class): 最小中心点距离
+# - edge_distance(SELF, class): 最小边缘距离
+# - iou(SELF, class): 最大 IoU
+# - contains(SELF, class): 包含关系
+# - above/below/left_of/right_of(obj_a, obj_b): 相对位置
+# - exists(class): 是否存在目标
+# - count(class): 目标数量
+# - area(SELF): 目标面积
+# - in_zone(SELF, zone_name): 是否位于区域（来自用户框选）
+#
+# 规则配置字段:
+# - desc: 规则说明（用于告警描述）
+# - condition: 规则表达式（字符串）
+# - min_duration: 连续违规时长（秒）
+# - severity: low / medium / high / critical
+# - need_vlm_confirm: 是否需要 VLM 复核
+# - threshold: 触发阈值（0~1，越高越严格）
+
+# VLM判定Prompt（可选，推理时使用）
+vlm_prompt_template: |
+  场景：厨房/工地/仓库等
+  目标：画面中红框标记的目标对象
+
+  判断标准：
+  1. 是否满足预设的危险条件？
+  2. 是否存在持续时间/位置等约束？
+
+  输出格式：
+  第一行：DANGER 或 SAFE
+  第二行：简短理由（说明判断依据）
+
+# 告警行为配置（可选）
+alert_behavior:
+  min_danger_duration: 5.0    # 持续危险多少秒后才触发告警
+  cooldown_period: 10.0       # 告警后冷却时间（秒），避免频繁告警
+
+# 使用说明：
+# 1) 复制本模板为 train/config/experts/{expert_id}.yaml
+# 2) 确保 expert_id 与数据集目录名一致
+# 3) 根据场景填写 detection_mode/primary_object/alert_rules/zone
+# 4) 运行 python train/scripts/3_train_expert.py 训练专家模型
+
