@@ -3,17 +3,29 @@
 
 # ===== 模型文件 =====
 *.pt
-train/models/
 server/models/*/
 !server/models/*/.gitkeep
 
+train/models/**
+!train/models/.gitkeep
+!train/models/original/
+!train/models/original/.gitkeep
+!train/models/output/
+!train/models/output/.gitkeep
+
 # ===== 训练数据 =====
-train/data/
+train/data/*
 !train/data/.gitkeep
+!train/data/original
+!train/data/processed
+train/data/original/*
+!train/data/original/.gitkeep
+train/data/processed/*
+!train/data/processed/.gitkeep
 
 # ===== 测试和数据 =====
 test/
-data/
+/data/
 client/
 
 # ===== Python =====
