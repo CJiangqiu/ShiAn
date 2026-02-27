@@ -22,7 +22,7 @@
 ### 安装
 
 ```bash
-git clone <repository>
+git clone https://github.com/CJiangqiu/ShiAn.git
 cd ShiAn
 pip install -r requirements.txt
 ```
