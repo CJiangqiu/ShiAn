@@ -86,15 +86,7 @@ train/                           # 训练工具
 
 ## 详细文档
 
-完整的使用指南、规则 DSL 语法、配置说明、架构详解等内容请参考 **《视安技术文档》**。
-
-技术文档生成：
-
-```bash
-pip install python-docx
-python docs/generate_whitepaper.py
-# 输出: docs/output/视安技术文档.docx
-```
+完整的使用指南、规则 DSL 语法、配置说明、架构详解等内容请参考 **《视安技术文档.docx》**。
 
 ## 许可证
 

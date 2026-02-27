@@ -47,8 +47,8 @@ logs/
 CLAUDE.md
 competitive_analysis.md
 pack.py
-*.docx
 ~$*
+!视安技术文档.docx
 
 # ===== 临时文件 =====
 *.tmp
