@@ -2,9 +2,8 @@
 # 与 PyCharm 排除结构保持一致
 
 # ===== 模型文件 =====
-*.pt
-server/models/*/
-!server/models/*/.gitkeep
+server/models/qwen3-vl-2b-instruct/
+train/scripts/*.pt
 
 train/models/**
 !train/models/.gitkeep

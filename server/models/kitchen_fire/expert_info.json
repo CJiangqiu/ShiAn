@@ -1,0 +1,44 @@
+{
+  "expert_id": "kitchen_fire",
+  "version": "v1.0.0",
+  "scene_ids": [
+    "kitchen"
+  ],
+  "expected_classes": [
+    "fire",
+    "smoke"
+  ],
+  "description": "厨房火焰与烟雾风险识别",
+  "detection_mode": 1,
+  "primary_object": [
+    "fire",
+    "smoke"
+  ],
+  "alert_rules": {
+    "unattended_fire_or_smoke": {
+      "desc": "火焰/烟雾附近无人持续出现",
+      "condition": "NOT nearby(SELF, person, 120) AND in_zone(SELF, safe_zone)",
+      "min_duration": 5.0,
+      "severity": "high",
+      "need_vlm_confirm": true,
+      "threshold": 0.6
+    },
+    "unsafe_zone_fire_or_smoke": {
+      "desc": "非安全区域出现火焰/烟雾",
+      "condition": "NOT nearby(SELF, person, 120) AND NOT in_zone(SELF, safe_zone)",
+      "min_duration": 5.0,
+      "severity": "critical",
+      "need_vlm_confirm": true,
+      "threshold": 0.6
+    }
+  },
+  "zone": {
+    "required": true,
+    "zone_name": "safe_zone"
+  },
+  "vlm_prompt_template": "场景：厨房安全监控\n目标：画面中红框标记的火焰或烟雾\n\n判断标准：\n1. 火焰/烟雾是否持续出现且无人在附近处理？\n2. 火焰是否处于非安全区域（远离灶台/安全区）？\n3. 是否存在明显失控、蔓延或异常烟雾？\n\n输出格式：\n第一行：DANGER 或 SAFE\n第二行：简短理由（说明判断依据）\n",
+  "alert_behavior": {
+    "min_danger_duration": 5.0,
+    "cooldown_period": 10.0
+  }
+}
