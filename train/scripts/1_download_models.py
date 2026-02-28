@@ -13,7 +13,7 @@ def train_root() -> Path:
 ROOT = train_root()
 ORIGINAL_DIR = ROOT / "models" / "original"
 
-YOLO_MODELS = ["yolo12s.pt", "yolo12n.pt"]
+YOLO_MODELS = ["yolo12l.pt"]
 
 # Qwen3-0.6B: 数据预处理类名匹配（轻量级文本模型）
 QWEN_TEXT_MODEL_ID = "Qwen/Qwen3-0.6B"
@@ -165,7 +165,7 @@ def main() -> None:
     print("下载完成")
     print("=" * 60)
     print(f"模型目录: {ORIGINAL_DIR}")
-    print(f"  - YOLO: yolo12n.pt, yolo12s.pt")
+    print(f"  - YOLO: yolo12l.pt")
     print(f"  - Qwen3-0.6B: {QWEN_TEXT_LOCAL_DIR.name}")
     print(f"  - Qwen3-VL-2B: {QWEN_VL_LOCAL_DIR.name}")
     print("环境已准备就绪")
