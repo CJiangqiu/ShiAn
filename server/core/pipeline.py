@@ -748,6 +748,7 @@ class Pipeline:
             tracked_objects,
             relations_cache={"zones": zones}
         )
+
         temporal_states = state_buffer.update(frame_results, frame_id)
         if not temporal_states:
             self._cleanup_vlm_cache(expert_id, set())

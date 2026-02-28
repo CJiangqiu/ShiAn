@@ -13,6 +13,7 @@
 
 ## 环境要求
 
+- **操作系统：Linux**（Debian/Ubuntu，部署脚本依赖 systemd）
 - Python 3.12+
 - PyTorch 2.7+ with CUDA
 - 8GB+ 显存（如需启用本地 VLM 验证）
@@ -45,13 +46,11 @@ python train/scripts/4_build_model.py        # 导出到 server/models/
 ### 启动服务
 
 ```bash
+# 一键部署（Linux，需要 root，自动配置 systemd 守护进程）
+sudo python server/run.py start
+
+# 或直接启动（前台运行）
 python -m server.api.main
-```
-
-Linux 一键部署（需要 root）：
-
-```bash
-python server/run.py start
 ```
 
 启动后：

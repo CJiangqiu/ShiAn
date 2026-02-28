@@ -34,9 +34,9 @@ class ObjectTracker:
         self,
         expert: ExpertDetector,
         frame: np.ndarray,
-        conf_threshold: float = 0.6,  # 提高阈值，过滤误检（正确车辆0.8-0.9）
+        conf_threshold: float = 0.25,  # 默认低阈值，确保 person 等目标不被过滤
         iou_threshold: float = 0.5,    # NMS 阈值
-        imgsz: int = 960,              # 使用训练时的图像尺寸
+        imgsz: int = 640,              # 与训练时一致
         device: Optional[str] = None,
         half: Optional[bool] = None,
         batch_size: Optional[int] = None

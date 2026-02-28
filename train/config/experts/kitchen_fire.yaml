@@ -17,15 +17,15 @@ alert_rules:
   unattended_fire_in_safe_zone:
     desc: 安全区域内火焰/烟雾无人看管
     condition: "NOT nearby(SELF, person, 120) AND in_zone(SELF, safe_zone)"
-    min_duration: 10.0
+    min_duration: 3.0
     severity: high
     need_vlm_confirm: true
-    threshold: 0.7
+    threshold: 0.6
 
   unattended_fire_outside_safe_zone:
     desc: 非安全区域出现火焰/烟雾且无人处理
     condition: "NOT nearby(SELF, person, 120) AND NOT in_zone(SELF, safe_zone)"
-    min_duration: 5.0
+    min_duration: 3.0
     severity: critical
     need_vlm_confirm: true
     threshold: 0.6
@@ -33,10 +33,10 @@ alert_rules:
   large_fire:
     desc: 检测到大面积火焰（可能失控）
     condition: "area(SELF) > 50000"
-    min_duration: 3.0
+    min_duration: 2.0
     severity: critical
     need_vlm_confirm: true
-    threshold: 0.8
+    threshold: 0.7
 
 vlm_prompt_template: |
   场景：厨房安全监控

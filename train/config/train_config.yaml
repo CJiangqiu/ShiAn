@@ -7,17 +7,17 @@ global:
   version: v1.0.0           # 默认版本号
 
   # 排除列表（不训练的专家）
-  exclude_experts: ["kitchen_fire", "worksite_ppe_guard"]       # 例如: ["kitchen_fire", "worksite_ppe_guard"]
+  exclude_experts: []       # 例如: ["kitchen_fire", "worksite_ppe_guard"]
 
-# ===== 专家模型训练配置 (YOLOv12s) =====
+# ===== 专家模型训练配置 (YOLOv12l) =====
 expert:
   # 模型配置
-  base_model: train/models/original/yolo12s.pt
-  model_size: s             # small - 准确度优先
+  base_model: train/models/original/yolo12l.pt
+  model_size: l             # large - 精度优先
 
   # 训练超参数
   epochs: 8                 # 训练轮数（小数据集，减少轮数避免过拟合）
-  batch_size: 4             # 批次大小（适配 8GB 显存）
+  batch_size: 8             # 批次大小（12GB 显存 + yolo12l）
   imgsz: 640                # 输入图像尺寸（匹配视频分辨率）
   patience: 20              # 早停耐心值（更早停止，防止过拟合）
 

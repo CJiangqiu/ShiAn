@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """
-视安 (ShiAn) 服务管理脚本
+视安 (ShiAn) 服务管理脚本（仅支持 Linux）
+
+本脚本依赖 systemd 守护进程管理，仅适用于 Linux 系统（Debian/Ubuntu）。
+
 用法:
-    python server/run.py start    # 安装依赖 + 启动服务（守护进程）
-    python server/run.py stop     # 停止服务
-    python server/run.py status   # 查看状态
-    python server/run.py logs     # 查看日志
-    python server/run.py restart  # 重启服务
+    sudo python server/run.py start    # 安装依赖 + 启动服务（守护进程）
+    sudo python server/run.py stop     # 停止服务
+    sudo python server/run.py status   # 查看状态
+    sudo python server/run.py logs     # 查看日志
+    sudo python server/run.py restart  # 重启服务
 """
 import subprocess
 import sys

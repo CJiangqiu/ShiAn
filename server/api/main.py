@@ -132,14 +132,7 @@ def draw_annotations(
     for event in alert_events:
         alert_obj_ids.update(event.alert.target_objects)
 
-    # 只绘制车辆类别（避免误画）
-    vehicle_classes = {'car', 'truck', 'bus', 'motorcycle'}
-
     for obj in tracked_objects:
-        # 过滤：只绘制车辆
-        if obj.cls_name not in vehicle_classes:
-            continue
-
         x1, y1, x2, y2 = map(int, obj.bbox)
 
         if obj.obj_id in alert_obj_ids:

@@ -15,25 +15,33 @@
   "description": "建筑工地个人防护装备（PPE）合规性监控",
   "alert_rules": {
     "no_helmet": {
-      "condition": "NOT nearby(SELF, helmet, 80)",
       "desc": "未佩戴安全帽",
-      "min_duration": 3.0,
+      "condition": "NOT nearby(SELF, helmet, 80)",
+      "min_duration": 5.0,
       "severity": "high",
-      "threshold": 0.6,
-      "need_vlm_confirm": true
+      "need_vlm_confirm": true,
+      "threshold": 0.7
     },
     "no_vest": {
-      "condition": "NOT nearby(SELF, vest, 80)",
       "desc": "未穿反光背心",
-      "min_duration": 3.0,
+      "condition": "NOT nearby(SELF, vest, 80)",
+      "min_duration": 5.0,
       "severity": "medium",
-      "threshold": 0.6,
-      "need_vlm_confirm": false
+      "need_vlm_confirm": false,
+      "threshold": 0.6
+    },
+    "unauthorized_in_danger_zone": {
+      "desc": "人员进入高危作业区域",
+      "condition": "in_zone(SELF, danger_zone)",
+      "min_duration": 10.0,
+      "severity": "high",
+      "need_vlm_confirm": false,
+      "threshold": 0.5
     }
   },
-  "vlm_prompt_template": "场景：建筑工地安全监控\n目标：画面中红框标记的工人\n\n判断标准：\n1. 是否正确佩戴安全帽？\n2. 是否穿着反光背心？\n3. 所处位置是否为作业区（非休息区）？\n4. 违规行为是否持续超过5秒？\n\n重要提示：\n- 短暂脱帽擦汗（<3秒）不算危险\n- 在休息区可以摘帽\n- 必须综合位置、时长判断\n\n输出格式：\n第一行：DANGER 或 SAFE\n第二行：简短理由（说明判断依据）\n",
+  "vlm_prompt_template": "场景：建筑工地安全监控\n目标：画面中红框标记的工人\n\n判断标准：\n1. 头部是否佩戴安全帽（注意区分安全帽与普通帽子/遮阳帽）？\n2. 是否穿着反光背心？\n3. 安全帽是手持还是正确佩戴在头上？\n\n重要提示：\n- 仅头部被遮挡看不清时判定为 SAFE\n- 普通棒球帽、遮阳帽不算安全帽\n- 安全帽拿在手里而非戴在头上算违规\n\n输出格式：\n第一行：DANGER 或 SAFE\n第二行：简短理由（说明判断依据）\n",
   "alert_behavior": {
     "min_danger_duration": 5.0,
-    "cooldown_period": 10.0
+    "cooldown_period": 60.0
   }
 }

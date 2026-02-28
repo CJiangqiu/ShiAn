@@ -59,7 +59,7 @@ class ExpertDetector:
     def detect(
         self,
         frame: np.ndarray,
-        conf_threshold: float = 0.6,  # 提高阈值到0.6，过滤误检（误检0.4-0.45，正确车辆0.8-0.9）
+        conf_threshold: float = 0.25,  # 默认低阈值，由规则引擎和时序融合进一步过滤
         iou_threshold: float = 0.5,    # NMS 阈值
         imgsz: int = 640               # 标准检测尺寸
     ) -> List[Detection]:

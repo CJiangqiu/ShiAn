@@ -20,11 +20,27 @@
     "motorcycle"
   ],
   "alert_rules": {
-    "long_time_parking": {
-      "desc": "车辆在禁停区域停留",
-      "condition": "in_zone(SELF, no_parking_zone) AND area(SELF) < 150000",
-      "min_duration": 10.0,
+    "brief_parking": {
+      "desc": "车辆在禁停区域短时停留（预警）",
+      "condition": "in_zone(SELF, no_parking_zone)",
+      "min_duration": 60.0,
+      "severity": "low",
+      "need_vlm_confirm": false,
+      "threshold": 0.5
+    },
+    "confirmed_parking": {
+      "desc": "车辆在禁停区域持续停留，确认违停",
+      "condition": "in_zone(SELF, no_parking_zone)",
+      "min_duration": 180.0,
       "severity": "medium",
+      "need_vlm_confirm": true,
+      "threshold": 0.6
+    },
+    "prolonged_parking": {
+      "desc": "车辆在禁停区域长时间占道停留",
+      "condition": "in_zone(SELF, no_parking_zone)",
+      "min_duration": 300.0,
+      "severity": "high",
       "need_vlm_confirm": false,
       "threshold": 0.5
     }
@@ -33,9 +49,9 @@
     "required": true,
     "zone_name": "no_parking_zone"
   },
-  "vlm_prompt_template": "场景：道路违停监控\n目标：画面中红框标记的车辆\n\n判断标准：\n1. 车辆是否处于禁停区域（红色框选区域）？\n2. 车辆是否静止停留超过60秒？\n3. 是否为临时停靠（上下客）还是长时间违停？\n\n重要提示：\n- 短暂停靠上下客（<30秒）不算违停\n- 必须确认车辆静止且无人看管\n- 综合位置和时长判断\n\n输出格式：\n第一行：DANGER 或 SAFE\n第二行：简短理由（说明判断依据）\n",
+  "vlm_prompt_template": "场景：道路违停监控\n目标：画面中红框标记的车辆\n\n判断标准：\n1. 车辆是否处于禁停区域内？\n2. 车辆是否处于静止状态？\n3. 是否属于以下豁免情况：\n   - 临时停靠上下客（驾驶员在车内，随时可驶离）\n   - 交通拥堵被动停车\n   - 黄色标线区域短暂装卸货物\n\n重要提示：\n- 短暂停靠上下客不算违停\n- 关注车辆是否熄火、是否有驾驶员在车内\n- 综合位置、时长和车辆状态判断\n\n输出格式：\n第一行：DANGER 或 SAFE\n第二行：简短理由（说明判断依据）\n",
   "alert_behavior": {
-    "min_danger_duration": 10.0,
-    "cooldown_period": 30.0
+    "min_danger_duration": 60.0,
+    "cooldown_period": 300.0
   }
 }
